@@ -8,7 +8,7 @@ import smtplib
 
 SERVER = "localhost"
 FROM = "entropia@kaito.kunbox.net"
-TO = "hi@kunsmann.eu"
+TO = "intern@lists.entropia.de"
 SUBJECT = "Erinnerung: morgen Hackerfrystyck"
 MESSAGE_TMPL = """\
 Liebe Entropianer,

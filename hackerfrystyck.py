@@ -8,7 +8,7 @@ import smtplib
 
 SERVER = "localhost"
 FROM = "entropia@kaito.kunbox.net"
-TO = "intern@lists.entropia.de"
+TO = "hi@kunsmann.eu"
 SUBJECT = "Erinnerung: morgen Hackerfrystyck"
 MESSAGE_TMPL = """\
 Liebe Entropianer,
@@ -40,7 +40,7 @@ def is_third_saturday(d):
 def main():
     date = get_tomorrow()
     if is_third_saturday(date):
-        message = build_message(start_time)
+        message = build_message(date)
         send_reminder(message)
 
 def get_tomorrow():

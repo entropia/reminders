@@ -19,7 +19,8 @@ from email.mime.text import MIMEText
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
-def find_between( s, first, last ):
+
+def find_between(s, first, last):
     try:
         start = s.index(first) + len(first)
         end = s.index(last, start)
@@ -27,14 +28,17 @@ def find_between( s, first, last ):
     except ValueError:
         return None
 
+
 today = datetime.date.today()
 sunday = today + datetime.timedelta(days=1)
 
-wiki = requests.get("https://entropia.de/index.php?title=Plenum:TOPS&action=edit")
+wiki = requests.get(
+        "https://entropia.de/index.php?title=Plenum:TOPS&action=edit"
+        )
 wikisource = wiki.content.decode('utf-8')
 
 key_start = 'punkte - ' + sunday.strftime('%d.%m.%Y') + ' ==='
-key_end   = '=== Tages'
+key_end = '=== Tages'
 
 plenum_tops = find_between(wikisource, key_start, key_end)
 

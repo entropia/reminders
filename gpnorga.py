@@ -19,13 +19,15 @@ from email.mime.text import MIMEText
 
 locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
-def find_between( s, first, last ):
+
+def find_between(s, first, last):
     try:
         start = s.index(first) + len(first)
         end = s.index(last, start)
         return s[start:end]
     except ValueError:
         return None
+
 
 today = datetime.date.today()
 sunday = today + datetime.timedelta(days=1)
@@ -34,7 +36,7 @@ wiki = requests.get("https://entropia.de/index.php?title=GPN20:Orga/Tops&action=
 wikisource = wiki.content.decode('utf-8')
 
 key_start = sunday.strftime('%d.%m.%Y') + ' ==='
-key_end   = '=== '
+key_end = '=== '
 
 plenum_tops = find_between(wikisource, key_start, key_end)
 

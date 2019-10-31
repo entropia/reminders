@@ -30,12 +30,14 @@ Ein Python-Script
 [0] <https://entropia.de/Hackerfryhstyck>
 [1] <https://entropia.pads.ccc.de/hackerfrystyck>
 
--- 
+--
 Dieses Schreiben wurde nicht mit systemd.maild versandt.
 """
 
+
 def is_third_saturday(d):
     return d.isoweekday() == 6 and 15 <= d.day <= 21
+
 
 def main():
     date = get_tomorrow()
@@ -43,11 +45,13 @@ def main():
         message = build_message(date)
         send_reminder(message)
 
+
 def get_tomorrow():
     now = datetime.datetime.today()
     today = now.date()
-    tomorrow = now.date() + datetime.timedelta(days=1)
+    tomorrow = today + datetime.timedelta(days=1)
     return tomorrow
+
 
 def build_message(time):
     msg = email.mime.text.MIMEText(MESSAGE_TMPL, "plain", "utf-8")
@@ -56,11 +60,12 @@ def build_message(time):
     msg['To'] = TO
     return msg
 
+
 def send_reminder(msg):
     s = smtplib.SMTP(SERVER)
     s.sendmail(FROM, [TO], msg.as_string())
     s.quit()
 
+
 if __name__ == "__main__":
     main()
-

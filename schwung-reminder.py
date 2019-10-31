@@ -51,38 +51,39 @@ und ist auch ohne Unterschrift gültig.
 """
 DAYS = {
     (FRIDAY, 1): "19:00",
-    #(FRIDAY, 2): "18:30", # nicht im GH
-    #(FRIDAY, 4): "18:30", # nicht im GH
 }
 
 
 def main():
     date = get_tomorrow()
     day = date.isoweekday(), get_weekday_in_month(date)
-    print "%s: tomorrow is %i. %s in month => %s" % (
+    print("%s: tomorrow is %i. %s in month => %s" % (
         datetime.datetime.today().strftime("%F %R"),
         day[1],
         date.strftime("%A"),
         "sending mail" if day in DAYS else "not sending mail")
+        )
     if day in DAYS:
         start_time = DAYS[day]
         message = build_message(start_time)
         send_reminder(message)
 
+
 def get_weekday_in_month(dt):
     num = 0
-    day = datetime.date(dt.year, dt.month, 1)
     for day_in_month in xrange(1, dt.day + 1):
         day_obj = datetime.date(dt.year, dt.month, day_in_month)
         if day_obj.isoweekday() == dt.isoweekday():
             num += 1
     return num
 
+
 def get_tomorrow():
     now = datetime.datetime.today()
     today = now.date()
-    tomorrow = now.date() + datetime.timedelta(days=1)
+    tomorrow = today + datetime.timedelta(days=1)
     return tomorrow
+
 
 def build_message(time):
     msg = email.mime.text.MIMEText(MESSAGE_TMPL % {"begin": time}, "plain", "utf-8")
@@ -91,10 +92,12 @@ def build_message(time):
     msg['To'] = TO
     return msg
 
+
 def send_reminder(msg):
     s = smtplib.SMTP(SERVER)
     s.sendmail(FROM, [TO], msg.as_string())
     s.quit()
+
 
 def test_get_weekday_in_month():
     assert 1 == get_weekday_in_month(datetime.date(2012, 8, 1))
@@ -105,6 +108,6 @@ def test_get_weekday_in_month():
     assert 5 == get_weekday_in_month(datetime.date(2012, 8, 31))
     assert 5 == get_weekday_in_month(datetime.date(2012, 4, 29))
 
+
 if __name__ == "__main__":
     main()
-

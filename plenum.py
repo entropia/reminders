@@ -1,57 +1,67 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
-#####
-#
-# Plenum-Reminder, by Kunsi
-#
-# To be executed by a cronjob every day at 00:01
-#
-# Checks wether a Plenum is scheduled for the next day, if yes, it
-# sends out a mail notification to the intern mailing list.
-#
-#####
+"""
+Plenum-Reminder, by Kunsi
 
-import requests
-import datetime
-import smtplib
-import locale
+To be executed by a cronjob every day at 00:01
+Checks wether a Plenum is scheduled for the next day, if yes, it
+sends out a mail notification to the intern mailing list.
+"""
+
+from datetime import date, timedelta
+from locale import setlocale, LC_ALL
+from os import environ
+from sys import argv, exit
+
 from email.mime.text import MIMEText
+from requests import get
+from smtplib import SMTP
 
-locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+URL   = argv[1]
 
-def find_between( s, first, last ):
+DEBUG = environ.get('DEBUG', '0') == '1'
+DAYS  = int(environ.get('DELTA_DAYS', 1))
+
+tomorrow = date.today() + timedelta(days=DAYS)
+start = '{} ==='.format(tomorrow.strftime('%d.%m.%Y'))
+end = '=== '
+
+def find_between(s, first, last):
     try:
         start = s.index(first) + len(first)
         end = s.index(last, start)
         return s[start:end]
     except ValueError:
-        return None
+        return
 
-today = datetime.date.today()
-sunday = today + datetime.timedelta(days=1)
+setlocale(LC_ALL, 'de_DE.UTF-8')
 
-wiki = requests.get("https://entropia.de/index.php?title=Plenum:TOPS&action=edit")
-wikisource = wiki.content.decode('utf-8')
+wiki = get(URL).content.decode('utf-8')
+plenum_tops = find_between(wiki, start, end)
 
-key_start = 'punkte - ' + sunday.strftime('%d.%m.%Y') + ' ==='
-key_end   = '=== Tages'
-
-plenum_tops = find_between(wikisource, key_start, key_end)
+if not plenum_tops:
+    # Catch a corner case for the first plenum on a page
+    plenum_tops = find_between(wiki, start, '</textarea>')
 
 if plenum_tops:
-    msg = MIMEText("""Hallo,
+    template = """Hallo,
 morgen ist (laut Wiki) wieder mal Plenum. Nachfolgend die Tagesordnungs-
 punkte aus dem Wiki:
 
+{}""".format(plenum_tops.strip())
 
-""" + plenum_tops)
+    if DEBUG:
+        print(template)
+        exit(0)
 
-    msg['Subject'] = 'Plenum am %s' % sunday.strftime('%A, %d.%m.%Y')
-    msg['From'] = 'entropia@kaito.kunbox.net'
-    msg['To'] = 'intern@lists.entropia.de'
+    msg = MIMEText(template)
+    msg['Subject'] = 'Plenum am %s' % tomorrow.strftime('%A, %d.%m.%Y')
+    msg['From'] = argv[2]
+    msg['To'] = argv[3]
 
     smtpObj = smtplib.SMTP('localhost')
     smtpObj.send_message(msg)
     smtpObj.quit()
-
-    print(msg)
+elif DEBUG:
+    print(wiki)
+    exit(1)

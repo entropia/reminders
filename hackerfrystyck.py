@@ -9,12 +9,12 @@ import smtplib
 SERVER = "localhost"
 FROM = "entropia@kaito.kunbox.net"
 TO = "intern@lists.entropia.de"
-SUBJECT = "Erinnerung: morgen Hackerfrystyck"
+SUBJECT = "Erinnerung: morgen Hacker:innen-Frystyck"
 MESSAGE_TMPL = """\
 Liebe Entropianer,
 
 Wie an jedem dritten Samstag im Monat ist morgen wieder geselliges
-Hackerfrystyck [0].
+Hacker:innen-Frystyck [0].
 
 Das bedeutet, dass ihr morgen um 11:23 Uhr mit $dingen zum Frühstücken
 im Club sein solltet. Wenn ihr nicht wisst, was noch gebraucht wird,

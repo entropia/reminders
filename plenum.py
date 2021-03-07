@@ -55,5 +55,3 @@ punkte aus dem Wiki:
     smtpObj.quit()
 
     print(msg)
-else:
-    print('Morgen scheint kein Plenum stattzufinden.')

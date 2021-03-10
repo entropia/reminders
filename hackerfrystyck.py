@@ -21,6 +21,9 @@ im Club sein solltet. Wenn ihr nicht wisst, was noch gebraucht wird,
 schaut mal in die Einkaufsliste [1] oder entscheidet mit anderen
 spontan vor Ort, was eingekauft werden muss.
 
+Sollten die Räume nicht zugänglich, sein  findet das Frystyck 
+im Cyber-Raum [2] statt.
+
 Sollte etwas anderes angekündigt sein hat das
 natürlich Vorrang vor dieser Erinnerung.
 
@@ -29,6 +32,7 @@ Ein Python-Script
 
 [0] <https://entropia.de/Hackerfryhstyck>
 [1] <https://entropia.pads.ccc.de/hackerfrystyck>
+[2] <https://meet.entropia.de/hackerfryhstyck>
 
 -- 
 Dieses Schreiben wurde nicht mit systemd.maild versandt.

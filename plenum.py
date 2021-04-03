@@ -59,7 +59,7 @@ punkte aus dem Wiki:
     msg['From'] = argv[2]
     msg['To'] = argv[3]
 
-    smtpObj = smtplib.SMTP('localhost')
+    smtpObj = SMTP('localhost')
     smtpObj.send_message(msg)
     smtpObj.quit()
 elif DEBUG:

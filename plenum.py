@@ -23,7 +23,7 @@ DEBUG = environ.get('DEBUG', '0') == '1'
 DAYS  = int(environ.get('DELTA_DAYS', 1))
 
 tomorrow = date.today() + timedelta(days=DAYS)
-start = '{} ==='.format(tomorrow.strftime('%d.%m.%Y'))
+start = '{} ==='.format(tomorrow.strftime('%Y-%m-%d'))
 end = '=== '
 
 def find_between(s, first, last):
